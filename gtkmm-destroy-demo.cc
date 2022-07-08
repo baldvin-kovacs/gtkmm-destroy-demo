@@ -2,16 +2,25 @@
 
 #include <string>
 
+// Set to 1 to test with the exposed "destroy" signal.
+#define HAS_SIGNAL_DESTROY 0
+
 class CustomWidget : public Gtk::Widget {
  public:
   CustomWidget(std::string name) : name{name} {
     button.set_label("foobar");
     button.set_parent(*this);
+
+#if HAS_SIGNAL_DESTROY
+
     signal_destroy().connect([this, name](){
       // This branch will be taken for the managed instance.
       g_message("Unparenting %s from the Gtk::Widget destroy handler.", name.c_str());
       button.unparent();
     });
+
+#endif
+
     set_layout_manager(Gtk::BinLayout::create());
   }
   ~CustomWidget() {
