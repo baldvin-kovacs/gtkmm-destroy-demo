@@ -8,7 +8,7 @@ class CustomWidget : public Gtk::Widget {
     button.set_label("foobar");
     button.set_parent(*this);
     signal_destroy().connect([this, name](){
-      // This member will be taken for the managed instance.
+      // This branch will be taken for the managed instance.
       g_message("Unparenting %s from the Gtk::Widget destroy handler.", name.c_str());
       button.unparent();
     });
